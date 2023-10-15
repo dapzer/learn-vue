@@ -1,0 +1,97 @@
+<script lang="ts" setup>
+import type { Component, VNode } from "vue"
+
+interface Props {
+  as?: Component | VNode | string
+  variant?: 'text' | 'title' | 'title2' | 'title3' | 'link' | 'linkUnderlined' | 'textSmall' | 'listItem'
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  as: "p",
+  variant: "text"
+})
+</script>
+
+<template>
+  <component
+    :is="props.as"
+    :class="{
+      text: variant === 'text',
+      title: variant === 'title',
+      title2: variant === 'title2',
+      title3: variant === 'title3',
+      textSmall: variant === 'textSmall',
+      link: variant === 'link',
+      linkUnderlined: variant === 'linkUnderlined',
+      listItem: variant === 'listItem'
+    }"
+  >
+    <slot />
+  </component>
+</template>
+
+<style scoped lang="scss">
+.title {
+  color: var(--c-secondary);
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-bold);
+}
+
+.title2 {
+  color: var(--c-secondary);
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-bold);
+}
+
+@media screen and (max-width: var(--bp-sm)) {
+  .title2 {
+    font-size: var(--fs-m-h2);
+  }
+}
+
+.title3 {
+  color: var(--c-secondary);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-medium);
+}
+
+.text {
+  color: var(--c-text);
+  font-size: var(--fs-p);
+  font-weight: var(--fw-medium);
+}
+
+.textSmall {
+  color: var(--c-text);
+  font-size: var(--fs-span);
+  font-weight: var(--fw-light);
+}
+
+.linkUnderlined,
+.link {
+  color: var(--c-secondary);
+  font-size: var(--fs-p);
+  font-weight: var(--fw-regular);
+  cursor: pointer;
+  text-decoration: none;
+  height: fit-content;
+  line-height: 1;
+}
+
+.linkUnderlined:hover,
+.link:hover {
+  color: var(--c-highlight);
+  border-color: var(--c-highlight) !important;
+}
+
+.linkUnderlined {
+  border-bottom: 1px solid var(--c-secondary);
+}
+
+.listItem {
+  color: var(--c-secondary);
+  font-size: var(--fs-p);
+  font-weight: var(--fw-regular);
+}
+
+</style>
