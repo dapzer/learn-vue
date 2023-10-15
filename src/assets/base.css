@@ -10,8 +10,6 @@ body {
   min-height: 100vh;
   color: var(--c-text);
   background: var(--c-background);
-  transition: color 0.5s,
-  background-color 0.5s;
   line-height: 1.6;
   font-family: Inter,
   -apple-system,
@@ -39,4 +37,15 @@ body,
 
 a {
   text-decoration: none;
+}
+
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+  color: var(--c-text);
+  font-size: var(--fs-p);
 }

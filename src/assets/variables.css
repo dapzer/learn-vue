@@ -33,6 +33,7 @@
   --s-container: 1440px;
   --s-header-height: 54px;
   --s-border-radius: 10px;
+  --s-disabled-opacity: 0.75;
 
   /* Breakpoints */
   --bp-xl: 1440px;
