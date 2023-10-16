@@ -3,7 +3,7 @@ import AppHeader from "@/components/layout/AppHeader.vue"
 </script>
 
 <template>
-  <div class="layout">
+  <div :class="$style.layout">
     <AppHeader />
     <main>
       <slot />
@@ -11,7 +11,7 @@ import AppHeader from "@/components/layout/AppHeader.vue"
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" module>
 .layout {
   display: flex;
   flex-direction: column;

@@ -26,13 +26,12 @@ const currentHandleButtonText = computed(() => {
 </script>
 
 <template>
-  <div class="body">
-    <div class="info">
+  <div :class="$style.body">
+    <div :class="$style.info">
       <UiTypography
-        :class="{
-          completedText: props.toDo.isCompleted
-        }"
-        class="text"
+        :class="[
+          { [$style.completedText]: props.toDo.isCompleted }, $style.text
+        ]"
       >
         {{ props.toDo.text }}
       </UiTypography>
@@ -72,7 +71,7 @@ const currentHandleButtonText = computed(() => {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss" module>
 .body {
   border: 1px solid var(--c-highlight);
   border-radius: var(--s-border-radius);

@@ -16,21 +16,21 @@ const props = withDefaults(defineProps<Props>(), {
   <component
     :is="props.as"
     :class="{
-      text: variant === 'text',
-      title: variant === 'title',
-      title2: variant === 'title2',
-      title3: variant === 'title3',
-      textSmall: variant === 'textSmall',
-      link: variant === 'link',
-      linkUnderlined: variant === 'linkUnderlined',
-      listItem: variant === 'listItem'
+      [$style.text]: variant === 'text',
+      [$style.title]: variant === 'title',
+      [$style.title2]: variant === 'title2',
+      [$style.title3]: variant === 'title3',
+      [$style.textSmall]: variant === 'textSmall',
+      [$style.link]: variant === 'link',
+      [$style.linkUnderlined]: variant === 'linkUnderlined',
+      [$style.listItem]: variant === 'listItem'
     }"
   >
     <slot />
   </component>
 </template>
 
-<style scoped lang="scss">
+<style module lang="scss">
 .title {
   color: var(--c-secondary);
   font-size: var(--fs-h1);

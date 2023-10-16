@@ -1,10 +1,10 @@
 <template>
-  <div class="container">
+  <div :class="$style.container">
     <slot />
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss" module>
 .container {
   width: 100%;
   max-width: calc(var(--s-container) + var(--s-indent) * 2);

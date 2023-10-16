@@ -43,21 +43,21 @@ watch(() => toDoList.value, () => {
 </script>
 
 <template>
-  <UiContainer class="wrapper">
-    <div class="createForm">
+  <UiContainer :class="$style.wrapper">
+    <div :class="$style.createForm">
       <UiInput
         v-model="currentToDoText"
         placeholder="Текст для новой задачи"
         type="text"
       />
       <UiButton
-        :disabled="currentToDoText.length < 1"
+        :disabled="!currentToDoText.length"
         @click="createTodo"
       >
         Создать задачу
       </UiButton>
     </div>
-    <div class="todos">
+    <div :class="$style.todos">
       <ToDoItem
         v-for="todo in toDoList"
         :key="todo.id"
@@ -68,7 +68,7 @@ watch(() => toDoList.value, () => {
   </UiContainer>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss" module>
 .wrapper {
   display: flex;
   flex-direction: column;

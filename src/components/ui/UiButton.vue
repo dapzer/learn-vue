@@ -11,14 +11,14 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
 <template>
   <button
     :class="{
-      body: props.variant === 'default'
+      [$style.body]: props.variant === 'default'
     }"
   >
     <slot />
   </button>
 </template>
 
-<style scoped lang="scss">
+<style module lang="scss">
 .body {
   cursor: pointer;
   padding: 8px 16px;
@@ -36,7 +36,6 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
   &:disabled {
     cursor: default;
     opacity: var(--s-disabled-opacity);
-
   }
 }
 </style>

@@ -18,17 +18,17 @@ const routes = [
 
 <template>
   <header>
-    <UiContainer class="body">
+    <UiContainer :class="$style.body">
       <UiTypography
         :as="RouterLink"
-        class="logo"
+        :class="$style.logo"
         to="/"
         variant="link"
       >
         Vue App
       </UiTypography>
 
-      <nav class="links">
+      <nav :class="$style.links">
         <UiTypography
           v-for="(link, index) in routes"
           :key="index"
@@ -43,7 +43,7 @@ const routes = [
   </header>
 </template>
 
-<style scoped>
+<style module lang="scss">
 header {
   position: fixed;
   top: 0;
