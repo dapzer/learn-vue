@@ -6,6 +6,10 @@
   --c-secondary: #FFFFFF;
   --c-highlight: #0073fa;
   --c-accent: #282f43;
+  --c-danger: #dc3545;
+  --c-danger-hovered: #c82333;
+  --c-success: #28a745;
+  --c-success-hovered: #218838;
 
   /* Font Sizes */
   --fs-h1: 3rem;

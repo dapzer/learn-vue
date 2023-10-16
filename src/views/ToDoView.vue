@@ -17,6 +17,10 @@ const loadToDos = () => {
 const toDoList = ref<ToDoItemType[]>(loadToDos())
 const currentToDoText = ref<string>("")
 
+watch(() => toDoList.value, () => {
+  localStorage.setItem("todos", JSON.stringify(toDoList.value))
+}, { deep: true })
+
 const createTodo = () => {
   toDoList.value.unshift({
     createdAt: Date.now(),
@@ -28,7 +32,6 @@ const createTodo = () => {
 
   currentToDoText.value = ""
 }
-
 const handleToDoStatus = (id: string) => {
   const toDoItem = toDoList.value.find((el) => el.id === id)
   if (!toDoItem) return
@@ -37,9 +40,11 @@ const handleToDoStatus = (id: string) => {
   toDoItem.updatedAt = Date.now()
 }
 
-watch(() => toDoList.value, () => {
-  localStorage.setItem("todos", JSON.stringify(toDoList.value))
-}, { deep: true })
+const onClickRemoveTodo = (todoItem: ToDoItemType) => {
+  const toDoIndex = toDoList.value.indexOf(todoItem)
+
+  toDoList.value.splice(toDoIndex, 1)
+}
 </script>
 
 <template>
@@ -63,6 +68,7 @@ watch(() => toDoList.value, () => {
         :key="todo.id"
         :to-do="todo"
         @handle-status="handleToDoStatus"
+        @on-click-remove-todo="onClickRemoveTodo"
       />
     </div>
   </UiContainer>

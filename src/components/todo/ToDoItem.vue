@@ -10,6 +10,7 @@ const props = defineProps<{
 
 const emits = defineEmits<{
   (event: "handleStatus", id: string): void
+  (event: "onClickRemoveTodo", todoItem: ToDoItemType): void
 }>()
 
 const createdDate = new Date(props.toDo.createdAt).toLocaleDateString()
@@ -26,12 +27,10 @@ const currentHandleButtonText = computed(() => {
 </script>
 
 <template>
-  <div :class="$style.body">
+  <div :class="[$style.body, {[$style.completedTodo]: props.toDo.isCompleted}]">
     <div :class="$style.info">
       <UiTypography
-        :class="[
-          { [$style.completedText]: props.toDo.isCompleted }, $style.text
-        ]"
+        :class="$style.text"
       >
         {{ props.toDo.text }}
       </UiTypography>
@@ -65,9 +64,18 @@ const currentHandleButtonText = computed(() => {
         </li>
       </ul>
     </div>
-    <UiButton @click="emits('handleStatus', props.toDo.id)">
-      {{ currentHandleButtonText }}
-    </UiButton>
+
+    <div :class="$style.controls">
+      <UiButton @click="emits('handleStatus', props.toDo.id)">
+        {{ currentHandleButtonText }}
+      </UiButton>
+      <UiButton
+        variant="danger"
+        @click="emits('onClickRemoveTodo', props.toDo)"
+      >
+        Удалить задачу
+      </UiButton>
+    </div>
   </div>
 </template>
 
@@ -92,8 +100,19 @@ const currentHandleButtonText = computed(() => {
   color: var(--c-secondary);
 }
 
-.completedText {
-  text-decoration: line-through;
+.completedTodo {
+  border-color: var(--c-success);
+
+  .text {
+    text-decoration: line-through;
+  }
+}
+
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 </style>
 
