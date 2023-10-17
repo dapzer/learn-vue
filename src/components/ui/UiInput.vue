@@ -1,18 +1,24 @@
 <script lang="ts" setup>
+import { computed } from "vue"
+
 const props = defineProps<{
-  modelValue: string
+  modelValue: string | boolean | number
 }>()
 
 const emits = defineEmits<{
-  (event: "update:modelValue", value: string): void
+  (event: "update:modelValue", value: string | boolean | number): void
 }>()
+
+const proxyModel = computed({
+  get: () => props.modelValue,
+  set: (newValue) => emits("update:modelValue", newValue)
+})
 </script>
 
 <template>
   <input
-    :value="props.modelValue"
+    v-model="proxyModel"
     :class="$style.body"
-    @input="emits('update:modelValue', ($event.target as HTMLInputElement).value)"
   >
 </template>
 
