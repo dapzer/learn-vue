@@ -3,6 +3,7 @@ import type { ToDoItemType } from "@/types/ToDoItemType"
 import UiTypography from "@/components/ui/UiTypography.vue"
 import { computed } from "vue"
 import UiButton from "@/components/ui/UiButton.vue"
+import { RouterLink } from "vue-router"
 
 const props = defineProps<{
   toDo: ToDoItemType
@@ -30,7 +31,10 @@ const currentHandleButtonText = computed(() => {
   <div :class="[$style.body, {[$style.completedTodo]: props.toDo.isCompleted}]">
     <div :class="$style.info">
       <UiTypography
+        :as="RouterLink"
+        :to="`/todo/${props.toDo.id}`"
         :class="$style.text"
+        variant="link"
       >
         {{ props.toDo.text }}
       </UiTypography>

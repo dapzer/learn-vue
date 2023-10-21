@@ -1,60 +1,44 @@
-<script lang="ts" setup>
+<script setup lang="ts">
+import UiTypography from "@/components/ui/UiTypography.vue"
+import { useRoute, useRouter } from "vue-router"
+import { useTodosStore } from "@/stores/useTodosStore"
+import { computed } from "vue"
 import UiContainer from "@/components/ui/UiContainer.vue"
 import ToDoItem from "@/components/todo/ToDoItem.vue"
-import UiButton from "@/components/ui/UiButton.vue"
-import UiInput from "@/components/ui/UiInput.vue"
-import ToDoFilters from "@/components/todo/ToDoFilters.vue"
-import { useTodosStore } from "@/stores/useTodosStore"
+import type { ToDoItemType } from "@/types/ToDoItemType"
 
 const todoStore = useTodosStore()
+const route = useRoute()
+const router = useRouter()
+
+const todoItem = computed(() => {
+  return todoStore.toDoList.find((el) => el.id === route.params.id)
+})
+
+const onClickRemoveTodo = (item: ToDoItemType) => {
+  todoStore.onClickRemoveTodo(item)
+
+  router.push("/")
+}
 </script>
 
 <template>
-  <UiContainer :class="$style.wrapper">
-    <div :class="$style.createForm">
-      <UiInput
-        v-model="todoStore.currentToDoText"
-        placeholder="Текст для новой задачи"
-        type="text"
-      />
-      <UiButton
-        :disabled="!todoStore.currentToDoText.length"
-        @click="todoStore.createTodo"
-      >
-        Создать задачу
-      </UiButton>
-    </div>
-    <ToDoFilters
-      v-model:is-completed="todoStore.filters.filtration.isCompleted"
-      v-model:sorting="todoStore.filters.sorting"
+  <UiContainer>
+    <ToDoItem
+      v-if="todoItem"
+      :to-do="todoItem"
+      @on-click-remove-todo="onClickRemoveTodo"
+      @handle-status="todoStore.handleToDoStatus"
     />
-    <div :class="$style.todos">
-      <ToDoItem
-        v-for="todo in todoStore.filteredTodos"
-        :key="todo.id"
-        :to-do="todo"
-        @handle-status="todoStore.handleToDoStatus"
-        @on-click-remove-todo="todoStore.onClickRemoveTodo"
-      />
-    </div>
+    <UiTypography
+      v-else
+      variant="title2"
+    >
+      Не найдено
+    </UiTypography>
   </UiContainer>
 </template>
 
-<style lang="scss" module>
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
+<style module lang="scss">
 
-.todos {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.createForm {
-  display: flex;
-  gap: 16px;
-}
 </style>

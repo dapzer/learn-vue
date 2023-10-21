@@ -72,6 +72,7 @@ export const useTodosStore = defineStore("todos", () => {
     currentToDoText,
     filters,
     filteredTodos,
+    toDoList,
     createTodo,
     handleToDoStatus,
     onClickRemoveTodo
