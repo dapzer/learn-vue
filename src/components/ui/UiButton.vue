@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 interface UiButtonProps {
-  variant?: "default" | "danger"
+  variant?: "default" | "danger" | "clear"
 }
 
 const props = withDefaults(defineProps<UiButtonProps>(), {
@@ -10,8 +10,9 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
 <template>
   <button
     :class="[ $style.body,{
-      [$style.default]: props.variant === 'default',
-      [$style.danger]: props.variant === 'danger'
+      [$style.default]: ['default', 'clear'].includes(props.variant),
+      [$style.danger]: props.variant === 'danger',
+      [$style.clear]: props.variant === 'clear'
     }]"
   >
     <slot />
@@ -52,5 +53,10 @@ const props = withDefaults(defineProps<UiButtonProps>(), {
     color: var(--c-danger-hovered);
     border-color: var(--c-danger-hovered);
   }
+}
+
+.clear {
+  border: none;
+  padding: unset;
 }
 </style>
