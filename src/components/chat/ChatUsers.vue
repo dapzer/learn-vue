@@ -35,7 +35,6 @@ const chatStore = useChatStore()
   overflow-y: auto;
   overflow-x: clip;
   width: 100%;
-  max-width: 250px;
   height: 100%;
   flex-grow: 1;
   border-left: 1px solid var(--c-text);

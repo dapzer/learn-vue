@@ -40,7 +40,7 @@ export const useChatStore = defineStore("chat", () => {
 
   const createUser = () => {
     ws.sendWithResponse("newUser").then(() => {
-      getChats()
+      getUsers()
     })
   }
 

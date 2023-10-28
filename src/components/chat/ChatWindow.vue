@@ -29,7 +29,7 @@ const scrollToBottom = () => {
   if (!messagesWrapper.value) {
     return
   }
-  const el = messagesWrapper.value as HTMLDivElement
+  const el = messagesWrapper.value.$el as HTMLDivElement
   const scrollFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight
 
   if (scrollFromBottom < el.clientHeight || isFirstChatScroll) {
@@ -55,8 +55,10 @@ watch(() => props.chat.id, () => {
       :avatar="props.chat.avatar"
       @handle-show-chat-users="handleShowChatUsers"
     />
-    <div
+    <TransitionGroup
       ref="messagesWrapper"
+      name="messagesWrapper"
+      tag="div"
       :class="$style.messages"
     >
       <ChatMessage
@@ -64,12 +66,57 @@ watch(() => props.chat.id, () => {
         :key="msg.id"
         :message="msg"
       />
-    </div>
+    </TransitionGroup>
   </div>
-  <ChatUsers v-if="isShowChatUsers" />
+  <Transition name="usersWrapper">
+    <div
+      v-if="isShowChatUsers"
+      :class="$style.usersWrapper"
+    >
+      <ChatUsers />
+    </div>
+  </Transition>
 </template>
 
+<style lang="scss">
+.usersWrapper-enter-active,
+.usersWrapper-leave-active {
+  overflow: hidden;
+  transition: all .3s linear;
+}
+
+.usersWrapper-leave-to,
+.usersWrapper-enter-from {
+  width: 0;
+}
+
+.usersWrapper-leave-from,
+.usersWrapper-enter-to {
+  width: var(--s-users-list-width);
+}
+
+.messagesWrapper-move,
+.messagesWrapper-enter-active,
+.messagesWrapper-leave-active {
+  transition: all .2s linear;
+}
+
+.messagesWrapper-leave-to,
+.messagesWrapper-enter-from {
+  transform: translateX(-100%);
+}
+
+.messagesWrapper-leave-from,
+.messagesWrapper-enter-to {
+  transform: translateX(0%);
+}
+</style>
+
 <style lang="scss" module>
+:root {
+  --s-users-list-width: 250px
+}
+
 .body {
   height: 100%;
   flex-grow: 1;
@@ -84,5 +131,11 @@ watch(() => props.chat.id, () => {
   gap: 12px;
   padding: 24px;
   overflow: auto;
+}
+
+.usersWrapper {
+  & > div {
+    width: var(--s-users-list-width);
+  }
 }
 </style>

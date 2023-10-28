@@ -56,5 +56,6 @@ const chatStore = useChatStore()
   flex-direction: column;
   overflow: auto;
   height: 100%;
+  border-right: 1px solid var(--c-text);
 }
 </style>
