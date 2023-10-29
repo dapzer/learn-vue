@@ -8,6 +8,7 @@ export const useChatStore = defineStore("chat", () => {
   const chats = ref<ChatTypes.ChatInfo[]>([])
   const users = ref<ChatTypes.User[]>([])
   const selectedChat = ref<ChatTypes.Chat | null>(null)
+  const isConnected = ref<boolean>(false)
 
   const onNewMessage = (message: ChatTypes.Message) => {
     if (message.chat === selectedChat.value?.id) {
@@ -17,6 +18,7 @@ export const useChatStore = defineStore("chat", () => {
 
   ws.connect(onNewMessage).then(() => {
     getChats()
+    isConnected.value = true
   })
 
 
@@ -62,16 +64,22 @@ export const useChatStore = defineStore("chat", () => {
     })
   }
 
+  const unselectChat = () => {
+    selectedChat.value = null
+  }
+
   return {
     chats,
     selectedChat,
     users,
+    isConnected,
     getChats,
     createChat,
     createUser,
     addUserToChat,
     removeUserFromChat,
     onClickChat,
-    getUsers
+    getUsers,
+    unselectChat
   }
 })

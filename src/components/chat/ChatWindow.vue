@@ -4,13 +4,17 @@ import type { ChatTypes } from "@/types/ChatTypes"
 import ChatHeader from "@/components/chat/ChatHeader.vue"
 import { useChatStore } from "@/stores/useChatStore"
 import type { VNodeRef } from "vue"
-import { nextTick, ref, watch } from "vue"
+import { nextTick, onMounted, onUnmounted, ref, watch } from "vue"
 import ChatMessage from "@/components/chat/ChatMessage.vue"
 import ChatUsers from "@/components/chat/ChatUsers.vue"
+import { useRoute, useRouter } from "vue-router"
 
 const props = defineProps<{
   chat: ChatTypes.Chat
 }>()
+
+const router = useRouter()
+const route = useRoute()
 
 const chatStore = useChatStore()
 
@@ -38,14 +42,31 @@ const scrollToBottom = () => {
   }
 }
 
+const closeChat = (event: KeyboardEvent) => {
+  if (event.key === "Escape") {
+    router.push({ path: route.path })
+    chatStore.unselectChat()
+  }
+}
+
 watch(() => props.chat.messages.length, async () => {
   await nextTick()
   scrollToBottom()
 }, { immediate: true })
 
 watch(() => props.chat.id, () => {
+  router.push({ path: route.path, query: { chatId: props.chat.id } })
   isFirstChatScroll = true
+}, { immediate: true })
+
+onMounted(() => {
+  document.addEventListener("keydown", closeChat)
 })
+
+onUnmounted(() => {
+  document.removeEventListener("keydown", closeChat)
+})
+
 </script>
 
 <template>

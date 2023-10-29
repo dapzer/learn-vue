@@ -5,8 +5,20 @@ import UiButton from "@/components/ui/UiButton.vue"
 import { useChatStore } from "@/stores/useChatStore"
 import ChatItem from "@/components/chat/ChatItem.vue"
 import ChatWindow from "@/components/chat/ChatWindow.vue"
+import { useRoute } from "vue-router"
+import { watch } from "vue"
 
 const chatStore = useChatStore()
+const route = useRoute()
+
+watch(() => chatStore.isConnected, () => {
+  if (!chatStore.isConnected) return
+  const chatId = route.query.chatId
+
+  if (chatId) {
+    chatStore.onClickChat(chatId as string)
+  }
+})
 </script>
 
 <template>
